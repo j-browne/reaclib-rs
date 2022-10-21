@@ -19,7 +19,7 @@ There are two formats, both supported by this library.
 
 ## Examples
 
-```
+```rust
 use reaclib::{Format, Iter, Set};
 use std::{fs::File, io::BufReader};
 
@@ -29,7 +29,7 @@ let iter = Iter::new(file, Format::Reaclib1);
 let data: Vec<Set> = iter.collect::<Result<_, _>>()?;
 ```
 
-```
+```rust
 use reaclib::{Format, Reaction, Set, to_hash_map};
 use std::{collections::HashMap, io::stdin};
 
