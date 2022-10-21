@@ -2,9 +2,9 @@
 
 A parsing library for the [reaclib] data format.
 
-The data is represented by [`Set`], and the parsing is mostly done by [`Iter`].
-The data can be collected into a type that implements [`FromIterator`], such as [`Vec`].
-A convenience function [`to_hash_map`] is provided for the case that you want a `Vec` of all
+The data is represented by `Set`, and the parsing is mostly done by `Iter`.
+The data can be collected into a type that implements `FromIterator`, such as `Vec`.
+A convenience function `to_hash_map` is provided for the case that you want a `Vec` of all
 `Set`s for each reaction.
 
 [reaclib]: https://reaclib.jinaweb.org/
@@ -13,7 +13,7 @@ A convenience function [`to_hash_map`] is provided for the case that you want a 
 
 The format is documented on the [reaclib format help page][reaclib_format].
 There are two formats, both supported by this library.
-[`Format`] is used to indicate which version to expect.
+`Format` is used to indicate which version to expect.
 
 [reaclib_format]: https://reaclib.jinaweb.org/help.php?topic=reaclib_format
 
@@ -41,10 +41,8 @@ let data: HashMap<Reaction, Vec<Set>> = to_hash_map(input, Format::Reaclib2)?;
 
 Licensed under either of
 
- * Apache License, Version 2.0
-   ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
- * MIT license
-   ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+ * [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+ * [MIT license](http://opensource.org/licenses/MIT)
 
 at your option.
 
