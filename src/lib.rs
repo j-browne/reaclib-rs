@@ -42,6 +42,10 @@
 //! # Ok(())
 //! # }
 //! ```
+//!
+//! # Features
+//!
+//! * `serde`: Provide `Serialize` and `Deserialize` implementations for [serde](https://serde.rs).
 use crate::error::ReaclibError as RError;
 use arrayvec::{ArrayString, ArrayVec};
 #[cfg(feature = "serde")]

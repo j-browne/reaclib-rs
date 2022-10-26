@@ -23,3 +23,6 @@ serde_json = "1.0.87"
 [[example]]
 name = "convert_to_json"
 required-features = ["serde"]
+
+[package.metadata.docs.rs]
+all-features = true
