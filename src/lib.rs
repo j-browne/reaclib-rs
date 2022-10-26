@@ -108,7 +108,8 @@ pub struct Set {
     /// The parameters of this reaction rate set.
     ///
     /// See the [reaclib format help](https://reaclib.jinaweb.org/help.php?topic=reaclib_format)
-    /// for how to interpret these parameters.
+    /// for how to interpret these parameters, and [`rate`][Self::rate] for an implementation of
+    /// that.
     pub params: [f64; 7],
 }
 
@@ -161,6 +162,18 @@ impl Set {
             q_value,
             params,
         })
+    }
+
+    /// Calculate the rate based on the rate parameters and their meaning, accoriding to the
+    /// [reaclib format help](https://reaclib.jinaweb.org/help.php?topic=reaclib_format).
+    pub fn rate(&self, temperature: f64) -> f64 {
+        // the indexing here can panic if the index is out of bounds, but `params` is an [f64; 7],
+        // so indices of 0..=6 will not cause a panic
+        // also, be careful with `i as f64`. this is fine because 0..=6 can all be represented by f64
+        let sum = (1..=5)
+            .map(|i| self.params[i] * f64::powf(temperature, 2.0 * (i as f64) * 5.0 / 3.0))
+            .sum::<f64>();
+        f64::exp(self.params[0] + sum + self.params[6] * f64::ln(temperature))
     }
 }
 
