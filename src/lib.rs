@@ -370,8 +370,8 @@ impl TryFrom<u8> for Chapter {
 ///
 /// If a set fails to parse or there is a reading error, [`next`][Self::next] will return `Some(Err)`.
 /// Calling `next` again may return `Some`, but the validity of the data is not guaranteed.
-pub struct Iter<B: BufRead> {
-    lines: Lines<B>,
+pub struct Iter<R: BufRead> {
+    lines: Lines<R>,
     format: Format,
     chapter: Option<Chapter>,
 }
