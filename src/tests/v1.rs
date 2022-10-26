@@ -1,5 +1,5 @@
 use crate::{error::ReaclibError, Format, Iter};
-use std::io::Cursor;
+use std::io::{self, Cursor};
 
 // if the file is empty, that's not an error, there are just no items
 #[test]
@@ -122,6 +122,18 @@ fn str_index() {
         Err(ReaclibError::ParseFloat(_))
     ));
     assert!(iter.next().is_none());
+}
+
+// the input for this test has a non-utf8 byte
+#[test]
+fn non_utf8() {
+    // the char spans a slice boundary, so we get an indexing error
+    let reader = Cursor::new(include_bytes!("v1/non_utf8"));
+    let mut iter = Iter::new(reader, Format::Reaclib1);
+    assert_eq!(
+        iter.next().unwrap(),
+        Err(ReaclibError::Io(io::ErrorKind::InvalidData))
+    );
 }
 
 #[test]
