@@ -7,7 +7,7 @@ use std::{
     io::{stdout, BufReader},
 };
 
-/// Example program for parsing a reaclib file into a `HashMap`
+/// Example program for converting from the raclib format to json
 #[derive(Parser, Debug)]
 #[command(about, long_about = None)]
 struct Cli {
