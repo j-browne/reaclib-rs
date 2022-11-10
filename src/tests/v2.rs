@@ -83,7 +83,6 @@ fn str_index() {
 // the input for this test has a non-utf8 byte
 #[test]
 fn non_utf8() {
-    // the char spans a slice boundary, so we get an indexing error
     let reader = Cursor::new(include_bytes!("v2/non_utf8"));
     let mut iter = Iter::new(reader, Format::Reaclib2);
     assert_eq!(
