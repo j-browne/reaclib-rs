@@ -1,5 +1,3 @@
-//! # reaclib-rs
-//!
 //! A parsing library for the [reaclib] data format.
 //!
 //! The data is represented by [`Set`], and the parsing is mostly done by [`Iter`].
@@ -9,7 +7,7 @@
 //!
 //! [reaclib]: https://reaclib.jinaweb.org/
 //!
-//! ## Format
+//! # Format
 //!
 //! The format is documented on the [reaclib format help page][reaclib_format].
 //! There are two formats, both supported by this library.
@@ -17,7 +15,7 @@
 //!
 //! [reaclib_format]: https://reaclib.jinaweb.org/help.php?topic=reaclib_format
 //!
-//! ## Examples
+//! # Examples
 //!
 //! ```no_run
 //! # fn main() -> Result<(), Box<dyn std::error::Error>> {
