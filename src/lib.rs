@@ -45,6 +45,8 @@
 //!
 //! * `serde`: Provide `Serialize` and `Deserialize` implementations for [serde](https://serde.rs).
 use crate::error::ReaclibError as RError;
+#[cfg(feature = "arbitrary")]
+use arbitrary::Arbitrary;
 use arrayvec::{ArrayString, ArrayVec};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -179,11 +181,65 @@ impl Set {
     }
 }
 
+#[cfg(feature = "arbitrary")]
+impl<'a> Arbitrary<'a> for Set {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'a>) -> arbitrary::Result<Self> {
+        // this is adapted from arbitrary's implementation of Arbitrary for &str
+        fn array_string<'a, const CAP: usize>(
+            u: &mut arbitrary::Unstructured<'a>,
+        ) -> arbitrary::Result<ArrayString<CAP>> {
+            let size = usize::min(u.arbitrary_len::<u8>()?, CAP);
+            match std::str::from_utf8(u.peek_bytes(size).unwrap()) {
+                Ok(s) => {
+                    u.bytes(size).unwrap();
+                    Ok(ArrayString::from(s).expect("size is limited to CAP"))
+                }
+                Err(e) => {
+                    let i = e.valid_up_to();
+                    let valid = u.bytes(i).unwrap();
+                    let s = ArrayString::from(
+                        std::str::from_utf8(valid).expect("we already checked for validity"),
+                    )
+                    .expect("size is limited to CAP");
+                    Ok(s)
+                }
+            }
+        }
+
+        let chapter: Chapter = u.arbitrary()?;
+
+        let mut reactants = ArrayVec::new();
+        for _ in 0..(chapter.num_reactants()) {
+            reactants.push(array_string(u)?);
+        }
+        let mut products = ArrayVec::new();
+        for _ in 0..(chapter.num_products()) {
+            products.push(array_string(u)?);
+        }
+        let label = array_string(u)?;
+        let resonance = u.arbitrary()?;
+        let reverse = u.arbitrary()?;
+        let q_value = u.arbitrary()?;
+        let params = u.arbitrary()?;
+
+        Ok(Self {
+            reactants,
+            products,
+            label,
+            resonance,
+            reverse,
+            q_value,
+            params,
+        })
+    }
+}
+
 /// A flag denoting whether a reaction is resonant, non-resonant, or weak.
 ///
 /// There is also an undocumented "s" variant.
 #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "arbitrary", derive(Arbitrary))]
 #[non_exhaustive]
 pub enum Resonance {
     NonResonant,
@@ -211,6 +267,7 @@ impl FromStr for Resonance {
 /// REACLIB 1 (R1) and REACLIB 2 (R2) are both supported by this library.
 #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "arbitrary", derive(Arbitrary))]
 #[non_exhaustive]
 pub enum Format {
     /// A three-line chapter header precedes multiple set entries.
@@ -226,6 +283,7 @@ pub enum Format {
 /// This library does not handle older reaclib files with both types in Chapter 8.
 #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "arbitrary", derive(Arbitrary))]
 #[non_exhaustive]
 pub enum Chapter {
     /// e1 → e2
