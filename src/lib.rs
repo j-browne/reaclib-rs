@@ -46,7 +46,7 @@
 //! * `serde`: Provide `Serialize` and `Deserialize` implementations for [serde](https://serde.rs).
 use crate::error::ReaclibError as RError;
 #[cfg(feature = "arbitrary")]
-use arbitrary::Arbitrary;
+use arbitrary::{Arbitrary, Unstructured};
 use arrayvec::{ArrayString, ArrayVec};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -185,10 +185,10 @@ impl Set {
 
 #[cfg(feature = "arbitrary")]
 impl<'a> Arbitrary<'a> for Set {
-    fn arbitrary(u: &mut arbitrary::Unstructured<'a>) -> arbitrary::Result<Self> {
+    fn arbitrary(u: &mut Unstructured) -> arbitrary::Result<Self> {
         // this is adapted from arbitrary's implementation of Arbitrary for &str
-        fn array_string<'a, const CAP: usize>(
-            u: &mut arbitrary::Unstructured<'a>,
+        fn array_string<const CAP: usize>(
+            u: &mut Unstructured,
         ) -> arbitrary::Result<ArrayString<CAP>> {
             let size = usize::min(u.arbitrary_len::<u8>()?, CAP);
             match std::str::from_utf8(u.peek_bytes(size).unwrap()) {
