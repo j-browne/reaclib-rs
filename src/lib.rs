@@ -168,14 +168,16 @@ impl Set {
 
     /// Calculate the rate based on the rate parameters and their meaning, accoriding to the
     /// [reaclib format help](https://reaclib.jinaweb.org/help.php?topic=reaclib_format).
+    #[must_use]
     pub fn rate(&self, temperature: f64) -> f64 {
-        // the indexing here can panic if the index is out of bounds, but `params` is an [f64; 7],
+        // the indexing here can panic if the index is out of bounds, but `params` has a len of 7,
         // so indices of 0..=6 will not cause a panic
         // also, be careful with `i as f64`. this is fine because 0..=6 can all be represented by f64
+        #[allow(clippy::cast_precision_loss)]
         let sum = (1..=5)
             .map(|i| self.params[i] * f64::powf(temperature, 2.0 * (i as f64) * 5.0 / 3.0))
             .sum::<f64>();
-        f64::exp(self.params[0] + sum + self.params[6] * f64::ln(temperature))
+        f64::exp(self.params[6].mul_add(f64::ln(temperature), self.params[0] + sum))
     }
 }
 
