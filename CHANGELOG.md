@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.2-1
+## 0.1.3
 
 * Fix use of `String` for paths in examples
 

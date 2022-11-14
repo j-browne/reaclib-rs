@@ -1,6 +1,6 @@
 [package]
 name = "reaclib"
-version = "0.1.2-1"
+version = "0.1.3"
 description = "A parsing library for the reaclib format"
 repository = "https://github.com/j-browne/reaclib-rs"
 documentation = "https://docs.rs/reaclib"
