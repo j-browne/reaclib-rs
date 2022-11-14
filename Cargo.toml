@@ -3,6 +3,7 @@ name = "reaclib"
 version = "0.1.1"
 description = "A parsing library for the reaclib format"
 repository = "https://github.com/j-browne/reaclib-rs"
+documentation = "https://docs.rs/reaclib"
 categories = ["science", "parser-implementations"]
 keywords = ["parser", "physics"]
 license = "MIT OR Apache-2.0"
