@@ -5,6 +5,7 @@ use std::{
     error::Error,
     fs::File,
     io::{stdout, BufReader},
+    path::PathBuf,
 };
 
 /// Example program for converting from the raclib format to json
@@ -16,7 +17,7 @@ struct Cli {
     format: Format,
 
     /// File to read from.
-    file: String,
+    file: PathBuf,
 }
 
 fn format_parse(s: &str) -> Result<Format, String> {

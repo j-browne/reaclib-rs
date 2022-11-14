@@ -1,6 +1,6 @@
 use clap::Parser;
 use reaclib::{to_hash_map, Format};
-use std::{error::Error, fs::File, io::BufReader};
+use std::{error::Error, fs::File, io::BufReader, path::PathBuf};
 
 /// Example program for parsing a reaclib file into a `HashMap`
 #[derive(Parser, Debug)]
@@ -11,7 +11,7 @@ struct Cli {
     format: Format,
 
     /// File to read from.
-    file: String,
+    file: PathBuf,
 }
 
 fn format_parse(s: &str) -> Result<Format, String> {
