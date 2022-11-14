@@ -40,6 +40,7 @@ let data: HashMap<Reaction, Vec<Set>> = to_hash_map(input, Format::Reaclib2)?;
 ## Features
 
 * `serde`: Provide `Serialize` and `Deserialize` implementations for [serde](https://serde.rs).
+* `arbitrary`: Provide `Arbitrary` implementations for [arbitrary](https://crates.io/crates/arbitrary), useful for fuzzing.
 
 ## License
 

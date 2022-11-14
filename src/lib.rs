@@ -44,6 +44,7 @@
 //! # Features
 //!
 //! * `serde`: Provide `Serialize` and `Deserialize` implementations for [serde](https://serde.rs).
+//! * `arbitrary`: Provide `Arbitrary` implementations for [arbitrary](https://crates.io/crates/arbitrary), useful for fuzzing.
 use crate::error::ReaclibError as RError;
 #[cfg(feature = "arbitrary")]
 use arbitrary::{Arbitrary, Unstructured};
