@@ -3,6 +3,7 @@
 ## 0.1.2
 
 * Add fuzzing
+* Add `arbitrary` feature
 
 ## 0.1.1
 
