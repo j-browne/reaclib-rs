@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+* Add fuzzing
+
 ## 0.1.1
 
 * Added `Set::rate`
