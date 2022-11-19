@@ -8,6 +8,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  RUSTFLAGS: -Dwarnings
 
 jobs:
   build:
@@ -18,9 +19,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: cargo build --verbose --features ${{ matrix.features }} -Dwarnings
+      run: cargo build --verbose --features ${{ matrix.features }}
     - name: Run tests
-      run: cargo test --verbose --features ${{ matrix.features }} -Dwarnings
+      run: cargo test --verbose --features ${{ matrix.features }}
   clippy:
     runs-on: ubuntu-latest
     strategy:
@@ -29,9 +30,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run clippy
-      run: cargo clippy --verbose --features ${{ matrix.features }} -- -Dwarnings -Dclippy::all -Dclippy::pedantic
+      run: cargo clippy --verbose --features ${{ matrix.features }} -- -Dclippy::all -Dclippy::pedantic
     - name: Run clippy on tests
-      run: cargo clippy --verbose --tests --features ${{ matrix.features }} -- -Dwarnings -Dclippy::all -Dclippy::pedantic
+      run: cargo clippy --verbose --tests --features ${{ matrix.features }} -- -Dclippy::all -Dclippy::pedantic
   fmt:
     runs-on: ubuntu-latest
     steps:
