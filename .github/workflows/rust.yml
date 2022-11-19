@@ -18,8 +18,23 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: cargo build --verbose --features ${{ matrix.features }}
+      run: cargo build --verbose --features ${{ matrix.features }} -Dwarnings
     - name: Run tests
-      run: cargo test --verbose --features ${{ matrix.features }}
-    - name: Clippy
-      run: cargo clippy --verbose --features ${{ matrix.features }} -- -Dclippy::all -Dclippy::pedantic
+      run: cargo test --verbose --features ${{ matrix.features }} -Dwarnings
+  clippy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        features: [",", "serde", "arbitrary", "serde,arbitrary"]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run clippy
+      run: cargo clippy --verbose --features ${{ matrix.features }} -- -Dwarnings -Dclippy::all -Dclippy::pedantic
+    - name: Run clippy on tests
+      run: cargo clippy --verbose --tests --features ${{ matrix.features }} -- -Dwarnings -Dclippy::all -Dclippy::pedantic
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Check Formatting
+      run: cargo fmt --verbose --check
